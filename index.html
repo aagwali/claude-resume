@@ -8,7 +8,11 @@
   const local = /^local_[A-Za-z0-9-]{1,64}$/;
   const target = uuid.test(s) ? "claude://resume?session=" + s
     : local.test(s) ? "claude://code/continue?session=" + s : null;
-  if (target) location.href = target;
+  if (target) {
+    // L'onglet se ferme quand l'application prend la main (après l'éventuelle confirmation du navigateur)
+    addEventListener("blur", () => window.close());
+    location.href = target;
+  }
   else document.write("Identifiant de conversation absent ou invalide.");
 </script>
 <p>Ouverture de la conversation dans l'application Claude…</p>
